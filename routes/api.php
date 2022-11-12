@@ -19,6 +19,13 @@ use App\Http\Controllers\AuthController;
 //     return $request->user();
 // });
 
+Route::any('/', function (){
+    return response()->json([
+        'status' => 200,
+        "message" => "Welcome to API"
+    ]);
+});
+
 Route::controller(AuthController::class)->group(function () {
     Route::post('login', 'login');
     Route::post('register', 'register');
