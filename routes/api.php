@@ -27,7 +27,7 @@ Route::any('/', function (){
 });
 
 Route::controller(AuthController::class)->group(function () {
-    Route::post('login', 'login')->name('login');
+    Route::post('login', 'login');
     
     Route::get('login', function() {
         return response()->json([
