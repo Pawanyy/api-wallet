@@ -27,7 +27,15 @@ Route::any('/', function (){
 });
 
 Route::controller(AuthController::class)->group(function () {
-    Route::post('login', 'login');
+    Route::post('login', 'login')->name('login');
+    
+    Route::get('login', function() {
+        return response()->json([
+            'status' => 'error',
+            'message' => 'Unauthorized',
+        ], 401);
+    })->name('login');
+
     Route::post('register', 'register');
     Route::post('logout', 'logout');
     Route::post('refresh', 'refresh');
