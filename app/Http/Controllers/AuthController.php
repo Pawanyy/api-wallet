@@ -37,6 +37,21 @@ class AuthController extends Controller
         return response()->json($response, $status);
     }
 
+    public function getUserData($user){
+        $userData = [
+            "id" => $user->id,
+            "name" => $user->name,
+            "email" => $user->email,
+            "phone" => $user->phone,
+            "email_verified" => empty($user->email_verified_at) ? false : true,
+            "phone_verified" => empty($user->phone_verified_at) ? false : true,
+            "created_at" => $user->created_at,
+            "updated_at" => $user->updated_at,
+        ];
+
+        return $userData;
+    }
+
     public function login(Request $request)
     {
 
@@ -62,11 +77,14 @@ class AuthController extends Controller
         $user = Auth::user();
         return response()->json([
                 'status' => 'success',
-                'user' => $user,
+                'user' => $this->getUserData($user),
                 'authorization' => [
                     'token' => $token,
                     'type' => 'bearer',
-                ]
+                ],
+                'wallet' => [
+                    'balance' => $user->balanceInt
+                ],
             ]);
 
     }
@@ -95,11 +113,14 @@ class AuthController extends Controller
         return response()->json([
             'status' => 'success',
             'message' => 'User created successfully',
-            'user' => $user,
+            'user' => $this->getUserData($user),
             'authorization' => [
                 'token' => $token,
                 'type' => 'bearer',
-            ]
+            ],
+            'wallet' => [
+                'balance' => $user->balanceInt
+            ],
         ]);
     }
 
@@ -114,9 +135,14 @@ class AuthController extends Controller
 
     public function me()
     {
+        $user = Auth::user();
+
         return response()->json([
             'status' => 'success',
-            'user' => Auth::user(),
+            'user' => $this->getUserData($user),
+            'wallet' => [
+                'balance' => $user->balanceInt
+            ],
         ]);
     }
 
