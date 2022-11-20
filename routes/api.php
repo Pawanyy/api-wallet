@@ -48,3 +48,6 @@ Route::controller(WalletController::class)->group(function () {
     Route::post('withdraw', 'withdraw');
 });
 
+Route::controller(UserController::class)->group(function () {
+    Route::get('users', 'show');
+});
