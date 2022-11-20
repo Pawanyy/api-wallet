@@ -9,7 +9,7 @@ class UserController extends Controller
 {
     public function show()
     {
-        $users = User::all();
+        $users = User::with('wallet')->get();
 
         return response()->json($users);
     }
